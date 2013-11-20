@@ -106,4 +106,23 @@ function pmproaffl_init_load_session_vars($param)
 	
 	return $param;
 }
-add_action('init', 'pmproaffl_init_load_session_vars');	
+add_action('init', 'pmproaffl_init_load_session_vars');
+
+//after checkout, clear any session vars
+function pmproaffl_pmpro_after_checkout()
+{
+	if(isset($_SESSION['bfirstname']))
+	{
+		unset($_SESSION['bfirstname']);
+		unset($_SESSION['blastname']);
+		unset($_SESSION['baddress1']);
+		unset($_SESSION['baddress2']);
+		unset($_SESSION['bcity']);
+		unset($_SESSION['bstate']);
+		unset($_SESSION['bzipcode']);
+		unset($_SESSION['bphone']);
+		unset($_SESSION['bemail']);
+		unset($_SESSION['bcountry']);	
+	}
+}
+add_action("pmpro_after_checkout", "pmproaffl_pmpro_after_checkout");	
