@@ -1,4 +1,4 @@
-=== PMPro Addon Packages ===
+=== PMPro Address For Free Levels ===
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, ecommerce
 Requires at least: 3.0
