@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: PMPro Address For Free Levels
+Plugin Name: Paid Memberships Pro - Address For Free Levels Add On 
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-address-for-free-levels/
 Description: Show address fields for free levels also with Paid Memberships Pro
 Version: .2.1
@@ -133,4 +133,20 @@ function pmproaffl_pmpro_after_checkout()
 			unset($_SESSION[$var]);
 	}	
 }
-add_action("pmpro_after_checkout", "pmproaffl_pmpro_after_checkout");	
+add_action("pmpro_after_checkout", "pmproaffl_pmpro_after_checkout");
+
+/*
+Function to add links to the plugin row meta
+*/
+function pmproaffl_plugin_row_meta($links, $file) {
+	if(strpos($file, 'pmpro-address-for-free-levels.php') !== false)
+	{
+		$new_links = array(
+			'<a href="' . esc_url('http://www.paidmembershipspro.com/add-ons/code-gists/pmpro-require-nameaddress-for-free-level/')  . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
+			'<a href="' . esc_url('http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
+		);
+		$links = array_merge($links, $new_links);
+	}
+	return $links;
+}
+add_filter('plugin_row_meta', 'pmproaffl_plugin_row_meta', 10, 2);	

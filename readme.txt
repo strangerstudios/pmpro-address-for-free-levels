@@ -1,4 +1,4 @@
-=== PMPro Address For Free Levels ===
+=== Paid Memberships Pro - Address For Free Levels Add On ===
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, ecommerce
 Requires at least: 3.5
