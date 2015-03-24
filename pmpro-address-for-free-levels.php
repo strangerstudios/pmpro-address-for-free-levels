@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Address For Free Levels Add On 
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-address-for-free-levels/
 Description: Show address fields for free levels also with Paid Memberships Pro
-Version: .2.1
+Version: .3
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -16,15 +16,18 @@ Author URI: http://www.strangerstudios.com
 function pmproaffl_pmpro_checkout_boxes_require_address()
 {
 	//don't force show them on review page
-	global $pmpro_review;
-	if($pmpro_review)
-		return;
+	global $pmpro_review;		
 ?>
 <script>
 	var pmpro_show_billing_address_fields_timer;
 	function showBillingAddressFields()
 	{
-		jQuery('#pmpro_billing_address_fields').show();
+		<?php if(empty($pmpro_review)) { ?>
+			jQuery('#pmpro_billing_address_fields').show();
+		<?php } else { ?>
+			jQuery('#pmpro_billing_address_fields').hide();	//hiding when on the review page
+		<?php } ?>
+		
 		pmpro_show_billing_address_fields_timer = setTimeout(function(){showBillingAddressFields();}, 200);
 	}
 	jQuery(document).ready(function() {
@@ -48,7 +51,12 @@ function pmproaffl_pmpro_checkout_boxes_require_address()
 }
 add_action("pmpro_checkout_boxes", "pmproaffl_pmpro_checkout_boxes_require_address");
  
- 
+//make sure we include address fields (for post 1.8)
+function pmproaffl_init_include_address_fields_at_checkout()
+{
+	add_filter('pmpro_include_billing_address_fields', '__return_true');
+}
+add_action('init', 'pmproaffl_init_include_address_fields_at_checkout', 30);
  
 //make sure address fields are required
 function pmproaffl_pmpro_required_user_fields($fields)
