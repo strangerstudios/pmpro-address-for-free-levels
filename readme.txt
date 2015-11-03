@@ -30,6 +30,8 @@ Please Note: This plugin is meant as a temporary solution. Most updates and fixe
 
 == Changelog ==
 = .3.1 =
+* BUG: Now filtering required billing fields after gateway actions.
+* ENHANCEMENT: Now using pmpro_require_billing_fields filter instead of pmpro_required_user_fields which doesn't require fields for existing members.
 * BUG: Now storing billing fields in session for Twocheckout as well.
 
 = .3 =
