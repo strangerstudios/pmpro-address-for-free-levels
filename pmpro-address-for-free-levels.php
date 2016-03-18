@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Address For Free Levels Add On 
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-address-for-free-levels/
 Description: Show address fields for free levels also with Paid Memberships Pro
-Version: .3
+Version: .3.1
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -50,7 +50,7 @@ function pmproaffl_pmpro_checkout_boxes_require_address()
 <?php
 }
 add_action("pmpro_checkout_boxes", "pmproaffl_pmpro_checkout_boxes_require_address");
- 
+
 //make sure we include address fields (for post 1.8)
 function pmproaffl_init_include_address_fields_at_checkout()
 {
@@ -59,10 +59,10 @@ function pmproaffl_init_include_address_fields_at_checkout()
 add_action('init', 'pmproaffl_init_include_address_fields_at_checkout', 30);
  
 //make sure address fields are required
-function pmproaffl_pmpro_required_user_fields($fields)
-{	
+function pmproaffl_pmpro_required_billing_fields($fields)
+{
 	global $bfirstname, $blastname, $baddress1, $bcity, $bstate, $bzipcode, $bcountry, $bphone, $bemail;
-	
+
 	$fields["bfirstname"] = $bfirstname;
 	$fields["blastname"] = $blastname;
 	$fields["baddress1"] = $baddress1;
@@ -71,11 +71,12 @@ function pmproaffl_pmpro_required_user_fields($fields)
 	$fields["bzipcode"] = $bzipcode;
 	$fields["bphone"] = $bphone;
 	$fields["bemail"] = $bemail;
-	$fields["bcountry"] = $bcountry;	
- 
+	$fields["bcountry"] = $bcountry;
+
 	return $fields;
 }
-add_action("pmpro_required_user_fields", "pmproaffl_pmpro_required_user_fields");
+//add_action("pmpro_required_user_fields", "pmproaffl_pmpro_required_billing_fields");
+add_action("pmpro_required_billing_fields", "pmproaffl_pmpro_required_billing_fields", 30);
 
 //save fields in session for PayPal Express/etc
 function pmproaffl_pmpro_paypalexpress_session_vars()
@@ -108,6 +109,7 @@ function pmproaffl_pmpro_paypalexpress_session_vars()
 	}
 }
 add_action("pmpro_paypalexpress_session_vars", "pmproaffl_pmpro_paypalexpress_session_vars");
+add_action("pmpro_before_send_to_twocheckout", "pmproaffl_pmpro_paypalexpress_session_vars", 10, 2);
 
 //Load fields from session if available.
 function pmproaffl_init_load_session_vars($param)

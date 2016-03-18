@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, ecommerce
 Requires at least: 3.5
-Tested up to: 4.1.1
-Stable tag: .3
+Tested up to: 4.3.1
+Stable tag: .3.1
 
 Show address fields for free levels also with Paid Memberships Pro
 
@@ -29,6 +29,11 @@ Please visit our premium support site at http://www.paidmembershipspro.com for m
 Please Note: This plugin is meant as a temporary solution. Most updates and fixes will be reserved for when this functionality is built into Paid Memberships Pro. We may not fix the pmpro-addon-packages plugin itself unless it is critical.
 
 == Changelog ==
+= .3.1 =
+* BUG: Now filtering required billing fields after gateway actions.
+* ENHANCEMENT: Now using pmpro_require_billing_fields filter instead of pmpro_required_user_fields which doesn't require fields for existing members.
+* BUG: Now storing billing fields in session for Twocheckout as well.
+
 = .3 =
 * BUG: Forcing billing address fields to be included for PayPal Express, PayPal Standard, and Twocheckout. Since PMPro v1.8 these fields are not rendered for these gateways. (Thanks, many folks.)
 * ENHANCEMENT: Hiding the billing fields on the review page if using PayPal Express, PayPal Standard, or Twocheckout.
