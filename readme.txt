@@ -2,7 +2,7 @@
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, ecommerce
 Requires at least: 3.5
-Tested up to: 4.3.1
+Tested up to: 4.4.2
 Stable tag: .3.1
 
 Show address fields for free levels also with Paid Memberships Pro
