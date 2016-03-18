@@ -131,6 +131,21 @@ function pmproaffl_init_load_session_vars($param)
 }
 add_action('init', 'pmproaffl_init_load_session_vars', 5);
 
+function pmproaffl_pmpro_checkout_order_free($morder)
+{
+	$morder->billing->name = $_REQUEST['bfirstname'] . " " . $_REQUEST['blastname'];
+	$morder->billing->street = $_REQUEST['baddress1'] . " " . $_REQUEST['baddress2'];
+	$morder->billing->city = $_REQUEST['bcity'];
+	$morder->billing->state = $_REQUEST['bstate'];
+	$morder->billing->zip = $_REQUEST['bzipcode'];
+	$morder->billing->phone = $_REQUEST['bphone'];
+	$morder->billing->country= $_REQUEST['bcountry'];	
+	
+	return $morder;
+}
+
+add_filter('pmpro_checkout_order_free', 'pmproaffl_pmpro_checkout_order_free');
+
 //after checkout, clear any session vars
 function pmproaffl_pmpro_after_checkout()
 {
