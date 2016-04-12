@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Address For Free Levels Add On 
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-address-for-free-levels/
 Description: Show address fields for free levels also with Paid Memberships Pro
-Version: .3.1
+Version: .4.2
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -135,6 +135,9 @@ add_action('init', 'pmproaffl_init_load_session_vars', 5);
 
 function pmproaffl_pmpro_checkout_order_free($morder)
 {
+	if(empty($morder))
+		$morder = new MemberOrder();
+
 	$morder->billing->name = $_REQUEST['bfirstname'] . " " . $_REQUEST['blastname'];
 	$morder->billing->street = $_REQUEST['baddress1'] . " " . $_REQUEST['baddress2'];
 	$morder->billing->city = $_REQUEST['bcity'];
