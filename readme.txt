@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, ecommerce
 Requires at least: 3.5
-Tested up to: 4.4.2
-Stable tag: .3.1
+Tested up to: 4.5.2
+Stable tag: .3.2
 
 Show address fields for free levels also with Paid Memberships Pro
 
@@ -29,6 +29,9 @@ Please visit our premium support site at http://www.paidmembershipspro.com for m
 Please Note: This plugin is meant as a temporary solution. Most updates and fixes will be reserved for when this functionality is built into Paid Memberships Pro. We may not fix the pmpro-addon-packages plugin itself unless it is critical.
 
 == Changelog ==
+= .3.2 =
+* BUG: Fixed a warning.
+
 = .3.1 =
 * BUG: Now filtering required billing fields after gateway actions.
 * ENHANCEMENT: Now using pmpro_require_billing_fields filter instead of pmpro_required_user_fields which doesn't require fields for existing members.

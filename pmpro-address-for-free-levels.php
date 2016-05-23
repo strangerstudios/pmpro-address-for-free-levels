@@ -138,6 +138,9 @@ function pmproaffl_pmpro_checkout_order_free($morder)
 	if(empty($morder))
 		$morder = new MemberOrder();
 
+	if(empty($morder->billing))
+		$morder->billing = new stdClass();
+
 	$morder->billing->name = $_REQUEST['bfirstname'] . " " . $_REQUEST['blastname'];
 	$morder->billing->street = $_REQUEST['baddress1'] . " " . $_REQUEST['baddress2'];
 	$morder->billing->city = $_REQUEST['bcity'];
