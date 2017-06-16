@@ -131,7 +131,7 @@ function pmproaffl_init_load_session_vars($param)
 	
 	return $param;
 }
-add_action('init', 'pmproaffl_init_load_session_vars', 5);
+add_action('pmpro_checkout_preheader', 'pmproaffl_init_load_session_vars', 5);
 
 function pmproaffl_pmpro_checkout_order_free($morder)
 {
