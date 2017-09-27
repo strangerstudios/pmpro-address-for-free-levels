@@ -24,7 +24,7 @@ Please post it in the issues section of GitHub and we'll fix it as soon as we ca
 
 = I need help installing, configuring, or customizing the plugin. =
 
-Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
+Please visit our premium support site at https://www.paidmembershipspro.com for more documentation and our support forums.
 
 Please Note: This plugin is meant as a temporary solution. Most updates and fixes will be reserved for when this functionality is built into Paid Memberships Pro. We may not fix the pmpro-addon-packages plugin itself unless it is critical.
 
