@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, ecommerce
 Requires at least: 4
-Tested up to: 4.9.7
-Stable tag: .3.3
+Tested up to: 4.9.8
+Stable tag: .4
 
 Show address fields for free levels also with Paid Memberships Pro
 
@@ -29,6 +29,11 @@ Please visit our premium support site at https://www.paidmembershipspro.com for 
 Please Note: This plugin is meant as a temporary solution. Most updates and fixes will be reserved for when this functionality is built into Paid Memberships Pro. We may not fix the pmpro-addon-packages plugin itself unless it is critical.
 
 == Changelog ==
+= .4 =
+* SECURITY: Sanitizing the billing fields before adding them to free orders.
+* BUG FIX/ENHANCEMENT: Using pmpro_checkout_before_change_membership_level to update user meta to support gateways like PayPal Standard.
+* ENHANCEMENT: Updated for some WordPress Coding Standards.
+
 = .3.3 =
 * BUG FIX: Fixed issue where name fields weren't updating WordPress when PayPal Express was used.
 
