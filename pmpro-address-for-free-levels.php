@@ -76,6 +76,30 @@ function pmproaffl_pmpro_required_billing_fields( $fields ) {
 add_action("pmpro_required_billing_fields", "pmproaffl_pmpro_required_billing_fields", 30);
 
 /**
+ * Sanitize and save billing fields from $_REQUEST
+ */
+function pmproaffl_save_billing_fields_from_request( $user_id ) {
+    $meta_keys = array( "bfirstname", "blastname", "baddress1", "baddress2", "bcity", "bstate", "bzipcode", "bcountry", "bphone", "bemail" );
+    
+    // grab the data from $_REQUEST
+    $meta_values = array();
+    foreach( $meta_keys as $key ) {
+        if ( ! empty( $_REQUEST[$key] ) ) {
+            $meta_values[] = sanitize_text_field( $_REQUEST[$key] );
+        } else {
+            $meta_values[] = '';
+        }
+    }
+    
+    // Need prefixes before saving. Cheaper than str_replacing when grabbing from $_REQUEST
+    foreach( $meta_keys as $key => $value ) {
+        $meta_keys[$key] = 'pmpro_' . $value;
+    }
+    
+    pmpro_replaceUserMeta( $user_id, $meta_keys, $meta_values );
+}
+
+/**
  * Save fields in session for PayPal Express/etc
  */
 function pmproaffl_pmpro_paypalexpress_session_vars() {	
@@ -99,15 +123,25 @@ function pmproaffl_pmpro_paypalexpress_session_vars() {
     
 	//if there is a user here, save in user meta as well
 	global $current_user;
-	if( !empty($current_user->ID) ) {
-		//save billing info ect, as user meta
-		$meta_keys = array("pmpro_bfirstname", "pmpro_blastname", "pmpro_baddress1", "pmpro_baddress2", "pmpro_bcity", "pmpro_bstate", "pmpro_bzipcode", "pmpro_bcountry", "pmpro_bphone", "pmpro_bemail");
-		$meta_values = array($_REQUEST['bfirstname'], $_REQUEST['blastname'], $_REQUEST['baddress1'], $_REQUEST['baddress2'], $_REQUEST['bcity'], $_REQUEST['bstate'], $_REQUEST['bzipcode'], $_REQUEST['bcountry'], $_REQUEST['bphone'], $_REQUEST['bemail']);
-		pmpro_replaceUserMeta($current_user->ID, $meta_keys, $meta_values);
+	if( ! empty( $current_user->ID ) ) {
+		pmproaffl_save_billing_fields_from_request( $current_user->ID );
 	}
 }
 add_action("pmpro_paypalexpress_session_vars", "pmproaffl_pmpro_paypalexpress_session_vars");
 add_action("pmpro_before_send_to_twocheckout", "pmproaffl_pmpro_paypalexpress_session_vars", 10, 2);
+
+/**
+ * Update user meta before changing membership level.
+ * Gateways like PayPal Standard redirect after this,
+ * so we need to update the user now.
+ * Needs to run before priority 10.
+ */
+function pmproaffl_pmpro_checkout_before_change_membership_level( $user_id, $morder ) {    
+    if( ! empty( $user_id ) ) {
+        pmproaffl_save_billing_fields_from_request( $user_id );
+    }
+}
+add_action( 'pmpro_checkout_before_change_membership_level', 'pmproaffl_pmpro_checkout_before_change_membership_level', 5, 2);
 
 /**
  * Load fields from session if available.
@@ -143,13 +177,13 @@ function pmproaffl_pmpro_checkout_order_free($morder) {
 		$morder->billing = new stdClass();
     }
     
-	$morder->billing->name = $_REQUEST['bfirstname'] . " " . $_REQUEST['blastname'];
-	$morder->billing->street = $_REQUEST['baddress1'] . " " . $_REQUEST['baddress2'];
-	$morder->billing->city = $_REQUEST['bcity'];
-	$morder->billing->state = $_REQUEST['bstate'];
-	$morder->billing->zip = $_REQUEST['bzipcode'];
-	$morder->billing->phone = $_REQUEST['bphone'];
-	$morder->billing->country= $_REQUEST['bcountry'];	
+	$morder->billing->name = sanitize_text_field( $_REQUEST['bfirstname'] . " " . $_REQUEST['blastname'] );
+	$morder->billing->street = sanitize_text_field( $_REQUEST['baddress1'] . " " . $_REQUEST['baddress2'] );
+	$morder->billing->city = sanitize_text_field( $_REQUEST['bcity'] );
+	$morder->billing->state = sanitize_text_field( $_REQUEST['bstate'] );
+	$morder->billing->zip = sanitize_text_field( $_REQUEST['bzipcode'] );
+	$morder->billing->phone = sanitize_text_field( $_REQUEST['bphone'] );
+	$morder->billing->country= sanitize_text_field( $_REQUEST['bcountry'] );
 	
 	return $morder;
 }
