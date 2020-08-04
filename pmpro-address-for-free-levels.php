@@ -37,7 +37,7 @@ function pmproaffl_pmpro_checkout_boxes_require_address() {
     			{
     			?>
     				//change heading
-    				jQuery('#pmpro_billing_address_fields th').html('Address');
+    				jQuery('.pmpro_checkout-h3-name').html('Address');
     			<?php
     			}
     		?>
