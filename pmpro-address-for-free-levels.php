@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Address For Free Levels Add On
 Plugin URI: https://www.paidmembershipspro.com/add-ons/capture-name-address-free-levels-offsite-gateway/
 Description: Show address fields for free levels also with Paid Memberships Pro
-Version: .4
+Version: 0.5
 Author: Paid Memberships Pro
 Author URI: https://www.paidmembershipspro.com/
 Text Domain: pmpro-address-for-free-levels
@@ -112,24 +112,24 @@ function pmproaffl_save_billing_fields_from_request( $user_id ) {
 /**
  * Save fields in session for PayPal Express/etc
  */
-function pmproaffl_pmpro_paypalexpress_session_vars() {
-    //assume the request is set
-    $_SESSION['bfirstname'] = $_REQUEST['bfirstname'];
-    $_SESSION['blastname'] = $_REQUEST['blastname'];
-    $_SESSION['baddress1'] = $_REQUEST['baddress1'];
-    $_SESSION['bcity'] = $_REQUEST['bcity'];
-    $_SESSION['bstate'] = $_REQUEST['bstate'];
-    $_SESSION['bzipcode'] = $_REQUEST['bzipcode'];
-    $_SESSION['bphone'] = $_REQUEST['bphone'];
-    $_SESSION['bemail'] = $_REQUEST['bemail'];
-    $_SESSION['bcountry'] = $_REQUEST['bcountry'];
-    
-    //check this one cause it's optional
-    if(!empty($_REQUEST['baddress2'])) {
-        $_SESSION['baddress2'] = $_REQUEST['baddress2'];
-    } else {
-        $_SESSION['baddress2'] = "";
-    }
+function pmproaffl_pmpro_paypalexpress_session_vars() {	
+	//assume the request is set
+	pmpro_set_session_var( 'bfirstname', $_REQUEST['bfirstname'] );
+    pmpro_set_session_var( 'blastname', $_REQUEST['blastname'] );
+    pmpro_set_session_var( 'baddress1', $_REQUEST['baddress1'] );
+    pmpro_set_session_var( 'bcity', $_REQUEST['bcity'] );
+    pmpro_set_session_var( 'bstate', $_REQUEST['bstate'] );
+    pmpro_set_session_var( 'bzipcode', $_REQUEST['bzipcode'] );
+    pmpro_set_session_var( 'bphone', $_REQUEST['bphone'] );
+    pmpro_set_session_var( 'bemail', $_REQUEST['bemail'] );
+    pmpro_set_session_var( 'bcountry', $_REQUEST['bcountry'] );    		
+	
+	//check this one cause it's optional
+	if(!empty($_REQUEST['baddress2'])) {
+		pmpro_set_session_var( 'baddress2', $_REQUEST['baddress2'] );
+	} else {
+		pmpro_set_session_var( 'baddress2', '' );
+	}
     
     //if there is a user here, save in user meta as well
     global $current_user;
@@ -157,21 +157,21 @@ add_action( 'pmpro_checkout_before_change_membership_level', 'pmproaffl_pmpro_ch
  * Load fields from session if available.
  */
 function pmproaffl_init_load_session_vars( $param ) {
-    //check that no field values were passed in and that we have some in session
-    if(empty($_REQUEST['bfirstname']) && !empty($_SESSION['bfirstname'])) {
-        $_REQUEST['bfirstname'] = $_SESSION['bfirstname'];
-        $_REQUEST['blastname'] = $_SESSION['blastname'];
-        $_REQUEST['baddress1'] = $_SESSION['baddress1'];
-        $_REQUEST['baddress2'] = $_SESSION['baddress2'];
-        $_REQUEST['bcity'] = $_SESSION['bcity'];
-        $_REQUEST['bstate'] = $_SESSION['bstate'];
-        $_REQUEST['bzipcode'] = $_SESSION['bzipcode'];
-        $_REQUEST['bphone'] = $_SESSION['bphone'];
-        $_REQUEST['bemail'] = $_SESSION['bemail'];
-        $_REQUEST['bcountry'] = $_SESSION['bcountry'];
-    }
-    
-    return $param;
+	//check that no field values were passed in and that we have some in session
+	if(empty($_REQUEST['bfirstname']) && !empty($_SESSION['bfirstname'])) {		
+        $_REQUEST['bfirstname'] = pmpro_get_session_var( 'bfirstname' );
+		$_REQUEST['blastname'] = pmpro_get_session_var( 'blastname' );
+		$_REQUEST['baddress1'] = pmpro_get_session_var( 'baddress1' );
+		$_REQUEST['baddress2'] = pmpro_get_session_var( 'baddress2' );
+		$_REQUEST['bcity'] = pmpro_get_session_var( 'bcity' );
+		$_REQUEST['bstate'] = pmpro_get_session_var( 'bstate' );
+		$_REQUEST['bzipcode'] = pmpro_get_session_var( 'bzipcode' );
+		$_REQUEST['bphone'] = pmpro_get_session_var( 'bphone' );
+		$_REQUEST['bemail'] = pmpro_get_session_var( 'bemail' );
+		$_REQUEST['bcountry'] = pmpro_get_session_var( 'bcountry' );
+	}
+	
+	return $param;
 }
 add_action( 'pmpro_checkout_preheader', 'pmproaffl_init_load_session_vars', 5 );
 
@@ -203,12 +203,12 @@ add_filter( 'pmpro_checkout_order_free', 'pmproaffl_pmpro_checkout_order_free' )
  * After checkout, clear any session vars.
  */
 function pmproaffl_pmpro_after_checkout() {
-    $vars = array( 'bfirstname', 'blastname', 'baddress1', 'baddress2', 'bcity', 'bstate', 'bzipcode', 'bphone', 'bemail', 'bcountry' );
-    foreach($vars as $var)
-    {
-        if(isset($_SESSION[$var]))
-            unset($_SESSION[$var]);
-    }
+	$vars = array( 'bfirstname', 'blastname', 'baddress1', 'baddress2', 'bcity', 'bstate', 'bzipcode', 'bphone', 'bemail', 'bcountry' );
+	foreach($vars as $var)
+	{
+		if(isset($_SESSION[$var]))
+			pmpro_unset_session_var( $var );
+	}
 }
 add_action("pmpro_after_checkout", "pmproaffl_pmpro_after_checkout");
 
