@@ -2,7 +2,7 @@
 /*
 Plugin Name: Paid Memberships Pro - Address For Free Levels Add On
 Plugin URI: https://www.paidmembershipspro.com/add-ons/capture-name-address-free-levels-offsite-gateway/
-Description: Show address fields for free levels also with Paid Memberships Pro
+Description: Show address fields for Free Levels or for Offsite Gateway also with Paid Memberships Pro
 Version: 0.5
 Author: Paid Memberships Pro
 Author URI: https://www.paidmembershipspro.com/
