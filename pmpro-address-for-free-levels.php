@@ -47,7 +47,7 @@ function pmproaffl_pmpro_checkout_boxes_require_address() {
                 {
                 ?>
                     //change heading
-                   jQuery('#pmpro_billing_address_fields .pmpro_checkout-h3-name').html('<?php esc_html_e("Address", "pmpro-address-for-free-levels");?>');               
+                   jQuery('#pmpro_billing_address_fields .pmpro_checkout-h2-name').html('<?php esc_html_e("Address", "pmpro-address-for-free-levels");?>');               
                                <?php
                 }
             ?>
