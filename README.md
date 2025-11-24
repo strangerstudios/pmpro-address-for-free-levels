@@ -18,7 +18,7 @@ For detailed installation steps, visit the [Capture Name & Address for Free Leve
 **Please ensure that once installing this version of the plugin to remove `-dev` from the plugin's folder name.**
 
 ## Bugs ##
-If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/rpmpro-address-for-free-levels/issues/new).
+If you find an issue/bug, let us know by [creating a detailed GitHub issue](https://github.com/strangerstudios/pmpro-address-for-free-levels/issues/new).
 
 ## Support ##
 This is a developer's portal for Capture Name & Address for Free Levels or Offsite Gateway. We do not offer support on this channel. **Any support related questions should be directed to [paidmembershipspro.com/support](https://www.paidmembershipspro.com/support/).**
