@@ -200,6 +200,40 @@ function pmproaffl_pmpro_checkout_order_free($morder) {
 add_filter( 'pmpro_checkout_order_free', 'pmproaffl_pmpro_checkout_order_free' );
 
 /**
+ * Enforce required billing fields for free checkouts.
+ *
+ * @since TBD
+ * 
+ * @param boolean $okay Whether previous checks passed.
+ * @return boolean $okay Whether all checks passed.
+ */
+function pmproaffl_required_billing_fields_for_free_level( $okay ) {
+	global $pmpro_error_fields, $pmpro_required_billing_fields;
+
+	// If something else is wrong, let's not proceed.
+	if ( ! $okay ) {
+		return $okay;
+	}
+
+	// Let core handle this for paid levels.
+	if ( ! pmpro_isLevelFree( pmpro_getLevelAtCheckout() ) ) {
+		return $okay;
+	}
+
+	// Make sure all billing fields are filled out.
+	foreach ( $pmpro_required_billing_fields as $field => $value ) {
+		if ( empty( $_REQUEST[ $field ] ) ) {
+			$pmpro_error_fields[] = $field;
+			pmpro_setMessage( __( 'Please complete all required fields.', 'pmpro-address-for-free-levels' ), 'pmpro_error' );
+			$okay = false;
+		}
+	}
+
+	return $okay;
+}
+add_filter( 'pmpro_checkout_order_creation_checks', 'pmproaffl_required_billing_fields_for_free_level', 20 );
+
+/**
  * After checkout, clear any session vars.
  */
 function pmproaffl_pmpro_after_checkout() {
