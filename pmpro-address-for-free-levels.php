@@ -222,7 +222,7 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 
 	// Make sure all billing fields are filled out.
 	foreach ( $pmpro_required_billing_fields as $field => $value ) {
-		if ( empty( $_REQUEST[ $field ] ) ) {
+		if ( ! isset( $_REQUEST[ $field ] ) || '' === trim( $_REQUEST[ $field ] ) ) {
 			$pmpro_error_fields[] = $field;
 			pmpro_setMessage( __( 'Please complete all required fields.', 'pmpro-address-for-free-levels' ), 'pmpro_error' );
 			$okay = false;
