@@ -1,4 +1,4 @@
-![](pmpro-address-for-free-levels.png)
+![](pmpro-address-for-free-levels-banner.png)
 
 # [Capture Name & Address for Free Levels or Offsite Gateway](https://www.paidmembershipspro.com/add-ons/capture-name-address-free-levels-offsite-gatewa) #
 [comment]: # (Generate badges from shields.io, only works for .org plugins to get other stats etc. We'd have to create our own endpoints for Premium plugins)
