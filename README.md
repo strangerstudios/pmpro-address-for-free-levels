@@ -24,7 +24,7 @@ If you find an issue/bug, let us know by [creating a detailed GitHub issue](http
 This is a developer's portal for Capture Name & Address for Free Levels or Offsite Gateway. We do not offer support on this channel. **Any support related questions should be directed to [paidmembershipspro.com/support](https://www.paidmembershipspro.com/support/).**
 
 ## Contributing to Capture Name & Address for Free Levels or Offsite Gateway ##
-We encourage and welcome any contribution to Capture Name & Address for Free Levels or Offsite Gateway. Please read the [guidelines for contributing](https://github.com/strangerstudios/pmpro-address-for-free-levels/blob/dev/.github/CONTRIBUTING.md) to this repository.
+We encourage and welcome any contribution to Capture Name & Address for Free Levels or Offsite Gateway. Please read the [guidelines for contributing](https://github.com/strangerstudios/pmpro-address-for-free-levels/blob/dev/.github/CONTRIBUTING.MD) to this repository.
 
 There are various **ways to the help development** of Capture Name & Address for Free Levels or Offsite Gateway:
 
