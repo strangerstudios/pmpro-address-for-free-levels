@@ -202,7 +202,7 @@ add_filter( 'pmpro_checkout_order_free', 'pmproaffl_pmpro_checkout_order_free' )
 /**
  * Enforce required billing fields for free checkouts.
  *
- * @since TBD
+ * @since 0.6
  * 
  * @param boolean $okay Whether previous checks passed.
  * @return boolean $okay Whether all checks passed.
