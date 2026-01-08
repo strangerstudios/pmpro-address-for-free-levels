@@ -1,15 +1,15 @@
-# Copyright (C) 2025 Paid Memberships Pro
+# Copyright (C) 2026 Paid Memberships Pro
 # This file is distributed under the same license as the Paid Memberships Pro - Address For Free Levels Add On plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Paid Memberships Pro - Address For Free Levels Add On 0.5\n"
+"Project-Id-Version: Paid Memberships Pro - Address For Free Levels Add On 0.6.1\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-27T12:46:54+00:00\n"
+"POT-Creation-Date: 2026-01-08T12:41:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pmpro-address-for-free-levels\n"
@@ -43,22 +43,22 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: pmpro-address-for-free-levels.php:233
+#: pmpro-address-for-free-levels.php:242
 msgid "Please complete all required fields."
 msgstr ""
 
-#: pmpro-address-for-free-levels.php:259
+#: pmpro-address-for-free-levels.php:268
 msgid "View Documentation"
 msgstr ""
 
-#: pmpro-address-for-free-levels.php:259
+#: pmpro-address-for-free-levels.php:268
 msgid "Docs"
 msgstr ""
 
-#: pmpro-address-for-free-levels.php:260
+#: pmpro-address-for-free-levels.php:269
 msgid "Visit Customer Support Forum"
 msgstr ""
 
-#: pmpro-address-for-free-levels.php:260
+#: pmpro-address-for-free-levels.php:269
 msgid "Support"
 msgstr ""
