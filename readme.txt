@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, ecommerce
 Requires at least: 4
-Tested up to: 6.8
-Stable tag: 0.6
+Tested up to: 6.9
+Stable tag: 0.6.1
 
 Show address fields for free levels also with Paid Memberships Pro
 
@@ -29,6 +29,9 @@ Please visit our premium support site at https://www.paidmembershipspro.com for 
 Please Note: This plugin is meant as a temporary solution. Most updates and fixes will be reserved for when this functionality is built into Paid Memberships Pro. We may not fix the pmpro-addon-packages plugin itself unless it is critical.
 
 == Changelog ==
+= 0.6.1 - 2026-01-08 =
+* BUG FIX: Fixes an issue where free checkouts would not complete when capturing address fields.
+
 = 0.6 - 2025-11-27 =
 * BUG FIX: Fixed issue where billing fields weren't required for free level checkouts. (@andrewlimaza)
 * BUG FIX: Fixed an issue where the billing fields title would not correctly changed based on free or paid checkouts. (@andrewlimaza)
