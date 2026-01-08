@@ -83,7 +83,7 @@ function pmproaffl_pmpro_required_billing_fields( $fields ) {
 
     return $fields;
 }
-add_action("pmpro_required_billing_fields", "pmproaffl_pmpro_required_billing_fields", 30);
+add_filter("pmpro_required_billing_fields", "pmproaffl_pmpro_required_billing_fields", 30);
 
 /**
  * Sanitize and save billing fields from $_REQUEST
@@ -216,20 +216,28 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 	}
 
 	// Let core handle this for paid levels.
-    $level = pmpro_getLevelAtCheckout();
+	$level = pmpro_getLevelAtCheckout();
 	if ( ! pmpro_isLevelFree( $level ) ) {
 		return $okay;
 	}
 
+	// Unset the default billing fields: AccountNumber, ExpirationMonth, ExpirationYear
+	unset( $pmpro_required_billing_fields['AccountNumber'] );
+	unset( $pmpro_required_billing_fields['ExpirationMonth'] );
+	unset( $pmpro_required_billing_fields['ExpirationYear'] );
+
 	// Make sure all billing fields are filled out.
 	$missing_required_field = false;
-	foreach ( $pmpro_required_billing_fields as $field => $value ) {
-		if ( empty( $_REQUEST[ $field ] ) ) {
-			$pmpro_error_fields[] = $field;
-			$missing_required_field = true;
-			$okay = false;
+	if ( is_array( $pmpro_required_billing_fields ) ) {
+		foreach ( $pmpro_required_billing_fields as $field => $value ) {
+			if ( ! isset( $_REQUEST[ $field ] ) || trim( $_REQUEST[ $field ] ) === '' ) {
+				$pmpro_error_fields[] = $field;
+				$missing_required_field = true;
+				$okay = false;
+			}
 		}
 	}
+
 	if ( $missing_required_field ) {
 		pmpro_setMessage( __( 'Please complete all required fields.', 'pmpro-address-for-free-levels' ), 'pmpro_error' );
 	}
