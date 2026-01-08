@@ -216,7 +216,8 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 	}
 
 	// Let core handle this for paid levels.
-	if ( ! pmpro_isLevelFree( pmpro_getLevelAtCheckout() ) ) {
+    $level = pmpro_getLevelAtCheckout();
+	if ( ! pmpro_isLevelFree( $level ) ) {
 		return $okay;
 	}
 
