@@ -221,10 +221,11 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 		return $okay;
 	}
 
-	// Unset the default billing fields: AccountNumber, ExpirationMonth, ExpirationYear
+	// Unset the default billing fields: AccountNumber, ExpirationMonth, ExpirationYear, CVV
 	unset( $pmpro_required_billing_fields['AccountNumber'] );
 	unset( $pmpro_required_billing_fields['ExpirationMonth'] );
 	unset( $pmpro_required_billing_fields['ExpirationYear'] );
+	unset( $pmpro_required_billing_fields['CVV'] );
 
 	// Make sure all billing fields are filled out.
 	$missing_required_field = false;
