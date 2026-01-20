@@ -30,7 +30,7 @@ Please Note: This plugin is meant as a temporary solution. Most updates and fixe
 
 == Changelog ==
 = 0.6.2 - 2026-01-20 =
-* BUG FIX: Fixes an issue where the default test gateway would not interfere with free checkouts, and possibly other gateways. (@andrewlimaza)
+* BUG FIX: Fixes an issue where the default test gateway would not interfere with free checkouts, and possibly other gateways. (@WTEK-PW3)
 
 = 0.6.1 - 2026-01-08 =
 * BUG FIX: Fixes an issue where free checkouts would not complete when capturing address fields.
