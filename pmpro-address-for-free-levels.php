@@ -225,6 +225,7 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 	unset( $pmpro_required_billing_fields['AccountNumber'] );
 	unset( $pmpro_required_billing_fields['ExpirationMonth'] );
 	unset( $pmpro_required_billing_fields['ExpirationYear'] );
+	unset( $pmpro_required_billing_fields['CVV'] );
 
 	// Make sure all billing fields are filled out.
 	$missing_required_field = false;
