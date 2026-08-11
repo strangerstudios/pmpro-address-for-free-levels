@@ -227,6 +227,19 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 	unset( $pmpro_required_billing_fields['ExpirationYear'] );
 	unset( $pmpro_required_billing_fields['CVV'] );
 
+    /**
+     * Allow developers to modify the required billing fields.
+     * 
+     * @param array $pmpro_required_billing_fields Required billing fields.
+     * @param object|int $level Current membership level.
+     */
+
+    $pmpro_required_billing_fields = apply_filters(
+		'pmproaffl_required_billing_fields',
+		$pmpro_required_billing_fields,
+		$level
+	);
+
 	// Make sure all billing fields are filled out.
 	$missing_required_field = false;
 	if ( is_array( $pmpro_required_billing_fields ) ) {
