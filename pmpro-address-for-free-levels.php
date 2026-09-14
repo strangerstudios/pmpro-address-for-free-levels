@@ -221,7 +221,10 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 		return $okay;
 	}
 
-	// Unset the default billing fields: AccountNumber, ExpirationMonth, ExpirationYear
+	// Unset the card fields. No card is collected for a free level, so these can't be filled in.
+	// CardType is included because not every gateway removes it from the required fields
+	// (Stripe only does so when using Stripe Lite or Stripe Checkout), and it is posted empty.
+	unset( $pmpro_required_billing_fields['CardType'] );
 	unset( $pmpro_required_billing_fields['AccountNumber'] );
 	unset( $pmpro_required_billing_fields['ExpirationMonth'] );
 	unset( $pmpro_required_billing_fields['ExpirationYear'] );
