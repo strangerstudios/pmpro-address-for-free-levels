@@ -10,6 +10,10 @@ Text Domain: pmpro-address-for-free-levels
 Domain Path: /languages
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /*
     Load plugin textdomain.
 */
@@ -93,13 +97,15 @@ function pmproaffl_save_billing_fields_from_request( $user_id ) {
     
     // grab the data from $_REQUEST
     $meta_values = array();
+    // phpcs:disable WordPress.Security.NonceVerification.Recommended -- Called during checkout after PMPro core verifies pmpro_checkout_nonce in preheaders/checkout.php.
     foreach( $meta_keys as $key ) {
         if ( ! empty( $_REQUEST[$key] ) ) {
-            $meta_values[] = sanitize_text_field( $_REQUEST[$key] );
+            $meta_values[] = sanitize_text_field( $_REQUEST[$key] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Saved via pmpro_replaceUserMeta() -> update_user_meta(), which expects slashed input.
         } else {
             $meta_values[] = '';
         }
     }
+    // phpcs:enable WordPress.Security.NonceVerification.Recommended
     
     // Need prefixes before saving. Cheaper than str_replacing when grabbing from $_REQUEST
     foreach( $meta_keys as $key => $value ) {
@@ -114,22 +120,24 @@ function pmproaffl_save_billing_fields_from_request( $user_id ) {
  */
 function pmproaffl_pmpro_paypalexpress_session_vars() {	
 	//assume the request is set
-	pmpro_set_session_var( 'bfirstname', $_REQUEST['bfirstname'] );
-    pmpro_set_session_var( 'blastname', $_REQUEST['blastname'] );
-    pmpro_set_session_var( 'baddress1', $_REQUEST['baddress1'] );
-    pmpro_set_session_var( 'bcity', $_REQUEST['bcity'] );
-    pmpro_set_session_var( 'bstate', $_REQUEST['bstate'] );
-    pmpro_set_session_var( 'bzipcode', $_REQUEST['bzipcode'] );
-    pmpro_set_session_var( 'bphone', $_REQUEST['bphone'] );
-    pmpro_set_session_var( 'bemail', $_REQUEST['bemail'] );
-    pmpro_set_session_var( 'bcountry', $_REQUEST['bcountry'] );    		
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Runs during checkout processing after PMPro core verifies pmpro_checkout_nonce. Values stay slashed because pmproaffl_init_load_session_vars() restores them into $_REQUEST, where core expects slashed input.
+	pmpro_set_session_var( 'bfirstname', sanitize_text_field( $_REQUEST['bfirstname'] ) );
+    pmpro_set_session_var( 'blastname', sanitize_text_field( $_REQUEST['blastname'] ) );
+    pmpro_set_session_var( 'baddress1', sanitize_text_field( $_REQUEST['baddress1'] ) );
+    pmpro_set_session_var( 'bcity', sanitize_text_field( $_REQUEST['bcity'] ) );
+    pmpro_set_session_var( 'bstate', sanitize_text_field( $_REQUEST['bstate'] ) );
+    pmpro_set_session_var( 'bzipcode', sanitize_text_field( $_REQUEST['bzipcode'] ) );
+    pmpro_set_session_var( 'bphone', sanitize_text_field( $_REQUEST['bphone'] ) );
+    pmpro_set_session_var( 'bemail', sanitize_email( $_REQUEST['bemail'] ) );
+    pmpro_set_session_var( 'bcountry', sanitize_text_field( $_REQUEST['bcountry'] ) );    		
 	
 	//check this one cause it's optional
 	if(!empty($_REQUEST['baddress2'])) {
-		pmpro_set_session_var( 'baddress2', $_REQUEST['baddress2'] );
+		pmpro_set_session_var( 'baddress2', sanitize_text_field( $_REQUEST['baddress2'] ) );
 	} else {
 		pmpro_set_session_var( 'baddress2', '' );
 	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
     
     //if there is a user here, save in user meta as well
     global $current_user;
@@ -158,7 +166,7 @@ add_action( 'pmpro_checkout_before_change_membership_level', 'pmproaffl_pmpro_ch
  */
 function pmproaffl_init_load_session_vars( $param ) {
 	//check that no field values were passed in and that we have some in session
-	if(empty($_REQUEST['bfirstname']) && !empty($_SESSION['bfirstname'])) {		
+	if(empty($_REQUEST['bfirstname']) && !empty($_SESSION['bfirstname'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check; restores this visitor's own session values before core processes checkout.
         $_REQUEST['bfirstname'] = pmpro_get_session_var( 'bfirstname' );
 		$_REQUEST['blastname'] = pmpro_get_session_var( 'blastname' );
 		$_REQUEST['baddress1'] = pmpro_get_session_var( 'baddress1' );
@@ -187,13 +195,15 @@ function pmproaffl_pmpro_checkout_order_free($morder) {
         $morder->billing = new stdClass();
     }
     
-    $morder->billing->name = sanitize_text_field( $_REQUEST['bfirstname'] . " " . $_REQUEST['blastname'] );
-    $morder->billing->street = sanitize_text_field( $_REQUEST['baddress1'] . " " . $_REQUEST['baddress2'] );
-    $morder->billing->city = sanitize_text_field( $_REQUEST['bcity'] );
-    $morder->billing->state = sanitize_text_field( $_REQUEST['bstate'] );
-    $morder->billing->zip = sanitize_text_field( $_REQUEST['bzipcode'] );
-    $morder->billing->phone = sanitize_text_field( $_REQUEST['bphone'] );
-    $morder->billing->country= sanitize_text_field( $_REQUEST['bcountry'] );
+    // phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Filter runs after PMPro core verifies pmpro_checkout_nonce; required fields are enforced by pmproaffl_required_billing_fields_for_free_level().
+    $morder->billing->name = sanitize_text_field( wp_unslash( $_REQUEST['bfirstname'] ) . " " . wp_unslash( $_REQUEST['blastname'] ) );
+    $morder->billing->street = sanitize_text_field( wp_unslash( $_REQUEST['baddress1'] ) . " " . wp_unslash( $_REQUEST['baddress2'] ) );
+    $morder->billing->city = sanitize_text_field( wp_unslash( $_REQUEST['bcity'] ) );
+    $morder->billing->state = sanitize_text_field( wp_unslash( $_REQUEST['bstate'] ) );
+    $morder->billing->zip = sanitize_text_field( wp_unslash( $_REQUEST['bzipcode'] ) );
+    $morder->billing->phone = sanitize_text_field( wp_unslash( $_REQUEST['bphone'] ) );
+    $morder->billing->country= sanitize_text_field( wp_unslash( $_REQUEST['bcountry'] ) );
+    // phpcs:enable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
     
     return $morder;
 }
@@ -234,7 +244,7 @@ function pmproaffl_required_billing_fields_for_free_level( $okay ) {
 	$missing_required_field = false;
 	if ( is_array( $pmpro_required_billing_fields ) ) {
 		foreach ( $pmpro_required_billing_fields as $field => $value ) {
-			if ( ! isset( $_REQUEST[ $field ] ) || trim( $_REQUEST[ $field ] ) === '' ) {
+			if ( ! isset( $_REQUEST[ $field ] ) || trim( $_REQUEST[ $field ] ) === '' ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Emptiness check only, value is not stored or output; runs in pmpro_checkout_order_creation_checks after core verifies pmpro_checkout_nonce.
 				$pmpro_error_fields[] = $field;
 				$missing_required_field = true;
 				$okay = false;
