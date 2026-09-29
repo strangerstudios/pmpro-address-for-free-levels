@@ -129,7 +129,7 @@ function pmproaffl_pmpro_paypalexpress_session_vars() {
     pmpro_set_session_var( 'bzipcode', sanitize_text_field( $_REQUEST['bzipcode'] ) );
     pmpro_set_session_var( 'bphone', sanitize_text_field( $_REQUEST['bphone'] ) );
     pmpro_set_session_var( 'bemail', sanitize_email( $_REQUEST['bemail'] ) );
-    pmpro_set_session_var( 'bcountry', sanitize_text_field( $_REQUEST['bcountry'] ) );    		
+    pmpro_set_session_var( 'bcountry', sanitize_text_field( $_REQUEST['bcountry'] ) );
 	
 	//check this one cause it's optional
 	if(!empty($_REQUEST['baddress2'])) {
@@ -166,7 +166,7 @@ add_action( 'pmpro_checkout_before_change_membership_level', 'pmproaffl_pmpro_ch
  */
 function pmproaffl_init_load_session_vars( $param ) {
 	//check that no field values were passed in and that we have some in session
-	if(empty($_REQUEST['bfirstname']) && !empty($_SESSION['bfirstname'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check; restores this visitor's own session values before core processes checkout.
+	if(empty($_REQUEST['bfirstname']) && !empty($_SESSION['bfirstname'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Emptiness check; repopulates $_REQUEST from this visitor's own session. Runs at pmpro_checkout_preheader, before core's nonce check.
         $_REQUEST['bfirstname'] = pmpro_get_session_var( 'bfirstname' );
 		$_REQUEST['blastname'] = pmpro_get_session_var( 'blastname' );
 		$_REQUEST['baddress1'] = pmpro_get_session_var( 'baddress1' );
@@ -195,7 +195,7 @@ function pmproaffl_pmpro_checkout_order_free($morder) {
         $morder->billing = new stdClass();
     }
     
-    // phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Filter runs after PMPro core verifies pmpro_checkout_nonce; required fields are enforced by pmproaffl_required_billing_fields_for_free_level().
+    // phpcs:disable WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotValidated -- Filter runs after PMPro core verifies pmpro_checkout_nonce; required fields (all but the optional baddress2) are enforced by pmproaffl_required_billing_fields_for_free_level().
     $morder->billing->name = sanitize_text_field( wp_unslash( $_REQUEST['bfirstname'] ) . " " . wp_unslash( $_REQUEST['blastname'] ) );
     $morder->billing->street = sanitize_text_field( wp_unslash( $_REQUEST['baddress1'] ) . " " . wp_unslash( $_REQUEST['baddress2'] ) );
     $morder->billing->city = sanitize_text_field( wp_unslash( $_REQUEST['bcity'] ) );
